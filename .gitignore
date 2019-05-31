@@ -1,0 +1,3 @@
+#instaladores/**/*
+*.msi
+*.exe

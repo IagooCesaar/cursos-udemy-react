@@ -1,0 +1,26 @@
+• Iniciar um projeto:
+
+npm install --global expo-cli (para instalação de dependencias - a tag global teoricamente fara com que não seja mais necessário rodar este comando na mesma máquina novamente)
+
+yarn create react-native-app <nome_do_projeto> (uma pasta anterior a do projeto, pois este método irá criar uma nova pasta com mesmo nome do projeto)
+
+			{expo init <nome_do_projeto>
+			Escolher template "Em branco"
+			Definir nome amigável do projeto
+			Se perguntar a respeito do yarn, marcar SIM (y)
+
+após "instalação",
+abrir pasta do projeto via prompt (cd nome_do_projeto) e executar yarn start}
+
+
+• Retomar projeto:
+
+acessar pasta do projeto e executar
+yarn start (expo client = ler qrcode)
+yarn run android (utiliza emulador)
+
+• Instalar o axios:
+npm install axios --save (na pasta do projeto)
+
+• Navigation
+yarn add react-navigation 

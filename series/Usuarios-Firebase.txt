@@ -1,0 +1,3 @@
+senha usuário de acesso ao BD Firebase do projeto SeriesReact:
+teste@gmailteste.com
+teste@123
