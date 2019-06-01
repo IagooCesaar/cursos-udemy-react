@@ -1,3 +1,9 @@
 senha usuário de acesso ao BD Firebase do projeto SeriesReact:
 teste@gmailteste.com
 teste@123
+
+novo@usuario.com
+123
+
+teste@teste.com
+teste123

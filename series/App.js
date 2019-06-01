@@ -1,5 +1,6 @@
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 import LoginPage from './src/pages/LoginPage';
+import SeiresPage from './src/pages/SeriesPage';
 
 const AppNavigator = createStackNavigator({
   'Login':{
@@ -8,10 +9,14 @@ const AppNavigator = createStackNavigator({
       title: 'Bem vindo!'
     }
   },
+  'Main': {
+    screen: SeiresPage,
+  }  
 },
 {
   defaultNavigationOptions: {
     title: "Séries",
+    headerTintColor: 'rgb(255, 255, 255)',
     headerStyle:{
       headerTintColor: 'rgb(255, 255, 255)',
       backgroundColor: 'rgb(000, 073, 080)',
