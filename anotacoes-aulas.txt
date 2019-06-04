@@ -1,0 +1,74 @@
+Vídeo aula #008 - Sistema de módulos:
+
+	• ES6 - EcmaScript (ou JavaScript) 6 
+	
+	• Sistema de módulos ES6 - Reaproveitamento de código
+	Utiliza-se técnica de "importação" de arquivos. O "Arquivo A" importa funções e objetos "públicos" do "Arquivo B" para que possa utilizá-los em seu corpo
+	
+	• Métodos de importação de arquivos:
+	
+	--> AMD - Asynchronous Module Definition
+	define (['./lib/jquery.js'], function($){
+		... código ex:
+		$.ajax{
+		}
+	}
+	
+	--> Common JS
+	var express = require('express');
+	var $ = require('./lib/jquery.js');
+	
+	--> ES6(nova versão) (import/export)
+	import React from 'react';
+	import $ from './lib/jquery.js';
+	
+	export default React;
+	export default MeuComponent;
+	
+	
+Vídeo aula #009 - var vs let vs const
+
+	• var : functional scope, variável (escopo de função, só existe dentro da função e seu valor pode ser alterado)
+	function funcaoQualquer() {
+		if (true) {
+			var a = 123;
+		}
+		console.log(a);
+	}
+	Retornará 123 no console.
+	
+	• let : block scope, variável (escopo de função, só existe dentro da do corpo definido por "{ ... }" e seu valor pode ser alterado )
+	function funcaoQualquer() {
+		if (true) {
+			let a = 123;
+		}
+		console.log(a);
+	}
+	Retornará um erro de referência (a is not defined), pois a linha "console.log(a)" não conhece a declaração "let a"
+	
+	• const : block scope, constant (escopo de função, só existe dentro da do corpo definido por "{ ... }" e seu valor NÃO pode ser alterado, retornando um erro quando procedimento de alteração for executado )
+	
+	
+	• Para criação de variáveis é recomendado o uso de "let"
+		--> o javascript auxiliará quando duas let forem declaradas com mesmo nome
+		--> o javascript auxiliará quando a chamada para uma variável let for executada antes de sua declaração, retornando um erro mais detalhado e apontando para o erro de fato. isto não acontece com uma var, neste caso o retorno seria apenas "undefined"
+		
+
+Vídeo aula #010 - Destructing:		
+
+	• Técnica para "retirar" apenas propriedades desejadas de um objetos
+
+	
+		
+	
+	
+	
+	
+	
+
+Vídeo aula #113 - Princípios do Redux:
+
+1) Única fonte da verdade:
+	Somente o Redux sabe (e deverá saber) o verdadeiro conteúdo do state dos components React
+	
+2) 
