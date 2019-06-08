@@ -57,18 +57,604 @@ Vídeo aula #009 - var vs let vs const
 Vídeo aula #010 - Destructing:		
 
 	• Técnica para "retirar" apenas propriedades desejadas de um objetos
+	Comparação de técnicas ES5 x ES6
+	var pet = {
+		name: 'Toninho',
+		specie: 'Hamster',
+		age: 1.6
+	};
+	//Destructing ES5:
+	var age = pet.age;
+	//Destructing ES6
+	var {age} = pet;
+	
+	
+Vídeo aula #011 - Funções:
 
+	 • Diferentes formas de declarar funções em JavaScript:
+	 // Forma 1 (ES5): Named function
+	 function soma1(x, y) {
+		 return x + y;
+	 }
+	 // Forma 2 (ES5): Anonymous function | deve ser atribuída a uma  variável
+	 var soma2 = function(x,y) {
+		return x + y;
+	 }	 
+	 // Forma 3 (ES6): Arrow function (são como as anônimas, mas com sintaxe diferente)
+	 const soma3 = (x, y) => {
+		 return x + y;
+	 }
+	 // Form 4 (ES6): Arrow function com uma linha de retorno apenas
+	 const soma4(x,y) => x + y;
+	 
+	 • Uma função declarada "function" possuí um escopo próprio, representado pela palavra this
+	 • Quando uma função sem a palavra "function" utiliza a palavra this (sem escopo próprio), esta estará relacionada ao objeto que a chamou.
+	 
+	 
+Vídeo aula #012 - Spread operator (...)
+
+	• É utilizado para unir dois ou mais arrays em um novo array
+	
+	const unidades = [1, 2, 3];
+	const dezenas = [10, 20, 30];
+	const numeros = [...unidades, ...dezenas];
+	console.log(numero); /* retorno: [1, 2, 3, 10, 20, 30]*/
+	
+	const obj1 = {
+		a: 123
+	}
+	const obj2 = {
+		b: 'Olá'
+	}
+	const obj3 = { ...obj1, ...obj2};
+	console.log(obj3); /* retorno: {a: 123, b: 'Olá'} */
 	
 		
+Vídeo aula #015 - Introdução ao React
+
+	• Biblioteca JavaScript para construção de interfaces de usuário
+	• Baseado em componentes, facilitando a reutilização de código
+
+
+Vídeo aula #017 - Hello, React
+	/* HTML */
+	<div id="app"></div>
+	 
+	/* JS */
+	// const ourTitle = React.createElement(/* tag */,/* propriedades */,/* fillhos */)
+	/* função React.createElement possuí três parâmetros, são eles:
+		--> Tag (obrigatório): Tag do elemento que pretendo criar
+		--> Propriedades (opcional): propriedades (como html) do componente, como "passagem de parâmetros"
+		--> Filhos (opcional) [array]: Quando necessário criação de outro componente dentro deste
+	*/
+	 	 
+	//ReactDOM.render(/* Componente */, /* container */)
+	/* função ReactDOM.render() possuí dois parâmetros, são eles:
+		--> Componente: componente que será renderizado
+		--> Container: item html da tela onde será renderizado o componente
+				
+	*/
+	 
+	 
+	//Criação do componente
+	const ourTitle = React.createElement("h1",null,"Olá")
+	//Renderição do componente na tela
+	const container = document.getElementById('app');
+	ReactDOM.render(ourTitle, container);
+	 
+	 
+Vídeo aula #018 - React Puro (sem JSX)
+
+	const container = document.getElementById('app');
+	
+	const ourHelloWithClass = React.createElement(
+		"h1", 
+		{className='my-title'}, 
+		"Olá"
+	);	
+	
+	const ourList = React.creatElement (
+		'ul',
+		null,
+		[
+			React.createElement('li', {className: 'item-01'}, 'Item 01'),
+			React.createElement('li', {className: 'item-02'}, 'Item 02'),
+			React.createElement('li', {className: 'item-03'}, 'Item 03'),
+		]
+	);
+	
+	const myWrapper = React.createElement(
+		"div",
+		{className='my-wrapper'},
+		[ourHelloWithClass, ourList]
+	);	
+	
+	ReactDOM.render(myWrapper, container);
+		
+
+
+Vídeo aula #019 - JSX
+	/* É comumn iniciar nomes de classes com letra maiúscula */
+	/*
+	No exemplo abaixo estamos criando uma classe de nome "OurHelloWithClass"
+	que herdará da classe "React.Component".
+	Para que nossa classe se comporte como um novo componente, deveremos 
+	sobrescrever o método render da classe pai, que deverá retornar algum JSX (html)
+	
+	*/
+	
+	class OurHelloWithClass extends React.Component {
+		render() {
+			return (
+				<h1 className="my-title'>Olá</h1>
+			);
+		}
+	}
+	
+	class OurList extends React.Component {
+		render () {
+			return (
+				<ul>
+					<li className="item-01"> Item 01 </li>
+					<li className="item-02"> Item 02 </li>
+					<li className="item-03"> Item 03 </li>
+				</ul>
+			);			
+		}
+	}	
+	
+	class MyWrapper extends React.Component {
+		render () {
+			return (
+				<div className="my-wrapper">
+					<OurHelloWithClass />
+					<OurList />
+				</div>
+			);
+		}
+	}		
+	ReactDOM.render(<MyWrapper />, container);
+	
+
+Vídeo aula #020 - JSX e Babel
+	O Babel é um "transpilador" de JSX para JavaScript tradicional (como um tradutor)
+
+
+
+Vídeo aula #022 - State
+	/*
+	• Maneira que podemos armazenar dados dentro de nosso próprio componente
+	• Para utilizá-lo é preciso implementar o método construtor "constructor", que é chamado quando o 
+	componete é construído
+	• Para implementar o método constructor 
+		• será necessário receber um parâmetro que represente as propriedades do componente, comumente chamado do "props"
+		• em seguida, logo na primeira linha, chamar o método super, passando o props como parâmetro. 
+		
+	• O método super será responsável por fazer como que, ao sobrescrever o construtor original do componente, todas suas características sejam mantidas (princípio de herança)	
+	• A palavra "this", dentro do corpo do componente criado, fará referência a própria instância deste componente
+	
+	*/
+	
+	class App extends React.Component {
+		constructor(props) {
+			super(props);
+			/* Na linha abaixo será inserida a propriedade state no nosso componente */
+			/* No exemplo, será criado um objeto JavaScript literal */
+			this.state = {
+				contador: 0,
+				nome: "Iago César"
+			}
+		}
+		/*
+		Sempre que formos executar um código JavaScript dentro de um códgo JSX, será necessário colocar entre "{ }" chaves
+		*/
+		render() {
+			/* A função setTimeout executará uma função, determinada no primeiro parâmetro, após o término de terminado tempo, definido no segundo parâmetro, cujo valor será em milissegundos */
+			setTimeout(() => {
+				/*
+				• Para atualizarmos alguma propriedade do state, será necessário utilizar a função this.setState(). 
+				Se utilizarmos simplesmente this.state = {alguma coisa}, todas as propriedades existentes em State serão perdidas, assumindo assim o novo valor passado para a propriedade
+				• A função setState é herdada da classe React.Component graças a palavra reservada "extends" na criação da nossa classe/componente
+				• Ao utilizar a função setState, as propriedas antigas serão "mergeadas" (ou mescladas) com as novas propriedades passadas pela função
+				*/
+				this.setState({
+					contador: this.state.contador + 1 
+				})
+			}, 1000);
+			
+			return (
+				<div>
+					<h1> {this.state.contador} </h1>
+					<h2> {this.state.nome} </h2>
+				</div>
+			);
+		}
+	}
+	
+	ReactDOM.render(
+		<App />,
+		document.getElementById('app')
+	);
+		
+
+Vídeo aula #023 - Mais State
+	• Toda vez que utilizarmos o método setState(), o método render() será executado automáticamente, estabelecendo um ciclo
+	• Fluxo de execução do código criado na aula 22:
+		1) Renderização do aplicativo através da instrução ReactDOM.render
+		2) Execução do método constructor()
+		3) Criação do state inicial
+		4) renderização do componente através de seu método render()
+		5) setTimeout() é executado
+		6) o state é atualizado através do método setState()
+		7) retorna ao item 4
 	
 	
+Vídeo aula #024 - Props
+	/*
+	• o State é algo para utilizar dados dentro de nosso objeto
+	• Props são as propriedades do componente que criamos na sua chamada (como Html, só que dinâmico)
+	*/
 	
+	/* Statefull component */
+	class App extends React.Component {
+		constructor(props) {
+			super(props);			
+			this.state = {
+				contador: 0,
+				nome: "Iago César"
+			}
+		}		
+		render() {			
+			setTimeout(() => {
+				this.setState({
+					contador: this.state.contador + 1 
+				})
+			}, 1000);
+			
+			return (
+				<div>
+					/* Será enviado como parâmetro para o componente Contador o valor da propriedade state.contador através do parâmetro props*/
+					<Contador valor={this.state.contador}/>
+					<h2> {this.state.nome} </h2>
+				</div>
+			);
+		}
+	}
+	/* Stateless component */
+	class Contador extends React.Component {
+		render() {
+			return (
+				<div>
+					<h1>{this.props.valor}</h1>
+				</div>
+			);
+		}
+	}
 	
+	ReactDOM.render(
+		<App />,
+		document.getElementById('app')
+	);
+	
+		
+Vídeo aula #025 - Componentes Funcionais 
+
+	/* Stateless componente ou componente sem estado: */
+	class Contador extends React.Component {
+		render() {
+			return (
+				<div>
+					<h1>{this.props.valor}</h1>
+				</div>
+			);
+		}
+	}
+	/* Functional component ou Componente Funcional */ 
+	/* Não é necessário implementar o método return quando a função retornar apenas uma linha pois sua chamada estará implícita */
+	const Contador = (props) => {
+		/* Não é possível acessar a propriedade props com "this.props" pois a mesma não está em seu escopo */
+		return (
+			<div>
+				<h1>{props.valor}</h1>
+			</div>
+		);
+	}
+	
+
+Seção #011 - Redux
+Vídeo aula #112 - Conceitos e overview do Redux:
+	• State: Dados da aplicação (ou do componente)
+	• Store: Será criado com o Redux. Servirá como "armazenador" do state, de modo que "perderemos" acesso direto ao state de nosso componente.
+	• Reducer: Será utilizado para termos acesso ao nosso state, que estará dentro da store. Reducers são funções puras 
+	• Action: Ação a ser realizada para alteração do state que será despachada (dispacth) para a store
+
 	
 
 Vídeo aula #113 - Princípios do Redux:
 
-1) Única fonte da verdade:
+1) Única fonte da verdade (single source of truth):
 	Somente o Redux sabe (e deverá saber) o verdadeiro conteúdo do state dos components React
+	/* Sevirá como compartilhador de dados entre as diversas telas do aplicativo */
 	
-2) 
+2) State is read-ony:
+	Não será permitido (ou recomendado) que você altere "manualmente" o state de seu componente. Para isto, deverá seguir o "passo a passo" do redux com o reducer + action
+
+3) Alterações são realizadas com funções puras:
+	O state somente será reescrito com funções puras, que não causem efeitos colaterais
+
+
+Vídeo aula #114 - Funções puras (pure functions):
+	/*
+	• Dados um mesmo conjunto de parâmetros, a função deverá retornar sempre a mesma coisa, o mesmo resultado	
+	• Não produz efeitos colaterais (side efects)
+		--> Uma função para escrever algum conteúdo em um arquivo de texto está causando um efeito colateral. Ela é impura
+		--> Uma função que recebe dados de uma API poderá receber dados de outras fontes. Ela é impura
+	• Uma dica para identificar se uma função é pura ou não é verificar se ela realiza alterações em variável "de fora"
+	*/
+	const getFive = () => 5; // Sempre retornará 5
+	
+	const addFive = x => x + 5;
+	console.log(addFive(5)); // Retornará 10, não importanto quantas vezes chame a função, desde que o conjunto de parâmetros seja alterada
+	
+	const addRandom = x > x + Math.random();
+	console.log(addRandom(10)); //retornará um número randômico. addRandom é uma função impura
+	
+	console.log(Math.max(1,5,8,15,2,5)); // Retornará 15, que é o maior número dentre os parâmetros. Math.max é uma função pura
+	
+	
+	
+Vídeo aula #115 - Imutabilidade (complemento a Funções puras):	
+	/* Funções puras são funções mais genéricas e mais reutilizáveis */
+
+let a = 123;
+// Função não pura pois não sabemos seu retorno ao certo. Ela altera uma variável "de fora"
+const incrementA = () => {
+	a++;
+}
+/*
+console.log(incrementA()); // a === 124
+console.log(incrementA()); // a === 125
+console.log(incrementA()); // a === 126
+*/
+
+// Reescrevendo incrementA de forma pura
+const immutableIncrement = (x) => {
+   return x + 1;		
+}
+
+immutableIncrement(a);// a === 123 
+immutableIncrement(a);// a === 123 
+immutableIncrement(a);// a === 123
+console.log(a); // a === 123 Seu valor não foi alterado por immutableIncrement
+
+// Para alterarmos o valor de a deverá ser feito algo como:
+a = immutableIncrement(a);// recebeu a === 123 e retornou a === 124
+a = immutableIncrement(a);// recebeu a === 124 e retornou a === 125
+a = immutableIncrement(a);// recebeu a === 125 e retornou a === 126
+console.log(a); //Retornará 126
+
+Vídeo aula #116 - Imutabilidade não tão simples assim (continuação da aula 115):
+	/*
+	• Se houver uma funçao que dependa da leitura do state, e alguma outra função alterou seu valor (principalmente funções assincronas), poderá resultar em um comportamento inesperado da aplicação
+	*/
+	
+let state = {
+	number: 123,
+	name: 'Iago César'
+}
+
+const incrementNumber = () => {
+	state.number ++;
+}
+console.log(state); // retornará { number: 123, name: 'Iago César' }
+incrementNumber();
+console.log(state); // retornará { number: 124, name: 'Iago César' }
+
+/* no exemplo abaixo, (state) nos parâmetro é o mesmo let state, pois o que foi passado é o endereço de memória */
+const incrementStateNumber = (state) => {
+	return state.number++
+}
+/*  */
+const pureIncrementStateNumber = (state) => {
+	/*
+	Clonando o objeto com Object.assign:
+		• todos os parâmetros deverão conter objetos
+		• o objeto no primeiro parâmetro será alterado pelos objetos que estiverem nos N parâmetro seguintes
+		• sua alteração será realizada através da técnica de mesclagem, onde prevalecerá sempre o valor do objeto que estiver mais à direita
+		
+	*/
+	const newState = Object.assign({} , state);
+	return newState.number++
+}
+console.log(state); // retornará o state como na sua declaração
+state = pureIncrementStateNumber(state); 
+console.log(state); // retornará { number: 124, name: 'Iago César' }
+
+Vídeo aula #118 - Dica de imutabilidade com Object.assign:
+/* Resumindo função anterior com apenas uma linha */ 
+const pureIncrementStateNumber = (state) => {
+	return Object.assign({} , state, {number: state.number + 1})
+}
+
+
+Vídeo aula #119 - Os três princípíos do Redux no "mundo real":
+
+
+
+Vídeo aula #120 - Prática com Redux:
+	// (veja aula 112) princípíos do redux
+	• Criar uma função reducer (pure function) que deverá retorar algum valor
+		ex: const reducer = () => 123; // não é um reducer muito útil, mas ajudar a inicializar o desenv da store sem erros
+	• Criar a store que receberá como parâmetro a função reducer
+		ex: const store = Redux.createStore(reducer);
+
+
+Vídeo aula #121 - Aprendendo sobre a Store (continuação da aula 120):
+	• 3 métodos da store:
+		• store.getState(): devolve o state atual
+			// Ao criar o store, a função reducer será executada automaticamente, por isto é necessário que a mesma tenha um retorno padrão
+		• store.dispacth(action()): responsável por enviar ações a serem executas pelo reducer com o propósito de atualizar o state
+			/*
+			• A função action é dinâmica, pode-se colocar "O que quiser" dentro dela.
+			• Toda função action deverá ter uma propriedade "type". Geralmente sempre com letras maiusculas com palavras separadas por "_"
+			*/
+			ex: const action = {
+				type: 'SET_VALUE',
+				value: 10 // ou payload 
+			}
+		• store.subscribe(): Será executado sempre que o state (da store, que é o verdadeiro - single source of truth) mudar
+			ex: store.subscribe(() => {
+				console.log(store.getState()) //Toda vez que o state for alterado será printado no console
+			})
+
+
+Vídeo aula #122 - Nosso primeiro reducer (continuação da aula 121):
+	• O reducer sempre será chamado com dois parâmetros: state (atual, store.getState() ) e action (enviada pelo dispacth)
+	• O reducer pode ser montado com if ou switch, que é mais comum, pois será necessário tratar os types das actions que podem ser despachadas
+	• Por regra, o a função reducer deverá ser uma pure function. Logo, o exemplo abaixo não poderá ser praticado:
+		ex com erro: 
+			const reducer = (state, action) => {
+				if (action.type === 'SET_VALUE') {
+					state = action.value // Errado pois tornaria em uma função não pura					
+				}
+				return state
+			}			
+		ex correto: 
+			const reducer = (state, action) => {
+				if (action.type === 'SET_VALUE') {
+					return action.value 			
+				}
+				return state
+			}
+	• É boa prática inicializar o valor de state pois a função reducer será chamada no create da Store (Redux.createStore(reducer))
+
+
+Vídeo aula #123 - Dica sobre constantes nos types das actions:
+	• É boa prática criar constantes para identificação dos types das actions, para evitar erros de digitação.
+	• Este princípio ajudará com o conceito de "action creator"
+		ex:
+			const SET_VALUE = 'SET_VALUE';
+			const reducer = (state, action) => {
+				if (action.type === SET_VALUE) {
+					return action.value 			
+				}
+				return state
+			}
+			const action = {
+				type: SET_VALUE,
+				value: 10 // ou payload 
+			}
+			store.dispacth(action());
+
+
+Vídeo aula #124 - Melhorando nosso reducer com switch case:
+	• switch ... case é uma boa forma de organizar a função reducer:
+		ex:
+			const SET_VALUE = 'SET_VALUE';
+			const DECREMENT_VALUE = 'DECREMENT_VALUE';
+			const INCREMENTE_VALUE = 'INCREMENTE_VALUE';
+			const reducer = (state, action) => {
+				switch (action.type) {
+					case SET_VALUE:
+						return action.value;
+					case DECREMENT_VALUE:
+						return state.value - action.decrement;
+					case INCREMENTE_VALUE
+						return state.value + action.increment;
+					default:
+						return state;
+				}
+			};
+			const setValue = {
+				type: SET_VALUE,
+				value: 10 // ou payload 
+			}
+			const incrementeValue = {
+				type: INCREMENTE_VALUE,
+				increment: 5
+			}
+			const decrementeValue = {
+				type: DECREMENT_VALUE,
+				decrement: 5
+			}
+			store.dispacth(setValue());
+			store.dispacth(incrementeValue());
+			store.dispacth(decrementeValue());
+
+
+Vídeo aula #125 - Melhorando nossa vida com action creators:
+	• Criador de ações: boa prática que consiste em criar funções com nomes "idênticos" às contantes que representam ações do reducers
+	• É melhor organizado quando declarada logo abaixo constante que representa a action do reducer
+		const SET_VALUE = 'SET_VALUE';
+		const setValue = (value = 10) => {
+			type: SET_VALUE,
+			value // seria o mesmo que escrever value: value. quando tem o mesmo nome pode-se utilizar desta prática
+		}
+		
+		const INCREMENTE_VALUE = 'INCREMENTE_VALUE';
+		const incrementeValue = (increment = 5) => {
+			type: INCREMENTE_VALUE,
+			increment
+		}
+		
+		const DECREMENT_VALUE = 'DECREMENT_VALUE';
+		const decrementeValue = (decrement = 5) => {
+			type: DECREMENT_VALUE,
+			decrement
+		}	
+
+
+Vídeo aula #126 - Readindo à alterações na store:
+	• Deverá ser utilizado o método store.subscribe(), que é acionado toda vez que o state (verdadeiro) for alterado
+	• Pode-se ser utilizado para promover uma nova renderização do componente ou de todo o aplicativo se realmente necessário
+	 
+
+Seção #012 - Redux Incremente App	 
+Vídeo aula #128 - Estruturando o aplicativo
+
+
+Vídeo aula #129 - Testando nosso redux e colocanco ação no botão
+
+
+Vídeo aula #130 - Finaluzando nosso increment App
+
+
+Vídeo aula #131 - Preparando ambiente React
+
+
+Vídeo aula #132 - Construindo nossa View React
+
+
+Vídeo aula #133 - Resolvendo um problema e encontrando mais um monte
+
+
+Vídeo aula #134 - Chamada para ReactRedux
+
+
+Vídeo aula #135 - Conhecendo os High Order Components (HOC)
+
+
+Vídeo aula #136 - Entendendo o connect e preparando o provider
+
+
+
+Vídeo aula #137 - mapStateToProps
+
+
+Vídeo aula #138 - Currying
+
+
+Vídeo aula #139 - mapDispatchToProps
+
+
+Vídeo aula #140 - Dica sobre o mapDispatchToProps
+
+
+Vídeo aula #141 - Finalizando nosso increment app novamente
+
+
+Vídeo aula #142 - Explicando a mágica do Provider com o context
+
+
+
+
