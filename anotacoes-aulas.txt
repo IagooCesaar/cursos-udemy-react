@@ -610,47 +610,216 @@ Vídeo aula #126 - Readindo à alterações na store:
 	 
 
 Seção #012 - Redux Incremente App	 
-Vídeo aula #128 - Estruturando o aplicativo
-
-
-Vídeo aula #129 - Testando nosso redux e colocanco ação no botão
-
-
-Vídeo aula #130 - Finaluzando nosso increment App
-
-
+Vídeo aula #128 - Estruturando o aplicativo (sem react)
+Vídeo aula #129 - Testando nosso redux e colocando ação no botão (sem react)
+Vídeo aula #130 - Finalizando nosso increment App (sem react)
 Vídeo aula #131 - Preparando ambiente React
+
+
 
 
 Vídeo aula #132 - Construindo nossa View React
 
 
+
 Vídeo aula #133 - Resolvendo um problema e encontrando mais um monte
 
 
+
 Vídeo aula #134 - Chamada para ReactRedux
+	• Principais atribuíções do:
+		• React: componentes visuais
+		• Redux: dados
+	Como uní-los, conectá-los? com a lib ReactRedux
 
 
 Vídeo aula #135 - Conhecendo os High Order Components (HOC)
+	
+	const {Provider, connect} = ReactRedux ; // High Order Components - Componentes de Alta Ordem
+	• HOC são componentes de alta ordem
+	• É uma função que recebe um componente e retorna um componente, só que com melhorias providas pelo Redux (injetando props)
+		
+	
+	• O "connect" conectará o componente com a store e terá como resultado uma função
+	• o "Provider" irá provisionar a nossa store. Utiliza uma lib chamada context do react
+		Ao invés de injetar a store para o componente <IncrementApp /> em 
+		
+		const ourRender = () => {
+		  ReactDOM.render(
+			<IncrementApp store={store}/>,
+			document.getElementById('App')
+		  );  
+		}
+		
+		Iremos passá-la para o Provider.
+		
+	• connect e Provider sempre trabalharão juntos
 
 
 Vídeo aula #136 - Entendendo o connect e preparando o provider
-
+	• Como connect e Provider do ReactRedux irá nos ajudar?
+	
+	• Como funcionará nosso componente com injeções do ReactRedux?
+		1) Teremos nosso <Provider /> que ficará como "Pai" de TODOS que precisarem utilizar o Redux
+			- o connect não pode ser chamado sem o Provider. Se tentar chamar o connect em algum lugar, em algum componente que não tenha o Provider como pai irá retornar um erro pq ele não terá em seu contexto o store
+			
+		2) Em segundo nível, teremos o connect
+		3) E por último teremos nosso componente
+		
+	No exemplo anterior:
+	const ourRender = () => {
+	  ReactDOM.render(
+		<Provider store={store}> //Provider, que agora é pai de nosso componente, receberá e provisionará o store para o nosso componente
+		  <ConnectedIncrementApp /> // Criamos um novo componente para exemplificar as alterações graças ao connect
+		</Provider>,     
+		document.getElementById('App')
+	  );  
+	}
+	
+	const ConnectedIncrementApp = connect(
+	  /* mapStateToProps */, //Este é o state da nossa store
+	  /* mapDispatchToProps */ // Este é o dispatch da nossa store
+	) => {
+	  return (
+		...
+	  )
+	}
+	
+	• mapStateToProps: 
+		• É uma função (que deve ser implementada) e irá receber o "state completo" de nossa aplicação e que deverá retornar um objeto cuja suas chaves serão injetadas em nosso componente via props
+		• recebe state e devolve props
+	• mapDispatchToProps:
+		• Assim como mapStateToProps, é uma função que receberá um "dispatch" de nossa aplicação e que deverá retornar um objeto cuja suas chaves serão injetadas em nosso componente via props
+		• recebe dispacth e devolve props
 
 
 Vídeo aula #137 - mapStateToProps
+	• A função mapStateToProps receberá o State da Store e então selecionaremos quais as propriedades do State que serão injetadas nas propriedades de nosso componente
+	• No exemplo abaixo, estamos injetando a propriedade "value" na props do componente IncrementApp
+
+	const IncrementApp = ({value}) => {
+	  return (
+		<div>
+		  <button class="btn btn-primary"
+			onClick = {(e) => {
+			  console.log('-');			  
+			}}> - </button>
+		  <span class="alert alert-primary" role="alert">
+			{` ${value} `}
+		  </span>
+		  <button class="btn btn-primary" 
+			onClick = {(e) => {
+			  console.log('+');			  
+			}}> + </button>
+		</div>      
+	  )
+	};
+
+	function mapStateToProps(state) {
+	  return {
+		// Selecionar as propriedades da store que fazem sentido para o IncrementApp. Quando este for renderizado, receberá as propriedades injetadas em props
+		value: state
+	  }
+	}
+
+	//O connect retornará uma função e passaremos nosso componente como parâmetro para estabelecer a "conexão"
+	//Utilizando técnica Currying para execução da função que é retornada pelo connect (in-line)
+	const ConnectedIncrementApp = connect(
+	  mapStateToProps
+	  /* mapDispatchToProps */
+	) (IncrementApp)
+	
+	const ourRender = () => {
+	  ReactDOM.render(
+		<Provider store={store}>
+		  <ConnectedIncrementApp />
+		</Provider>,     
+		document.getElementById('App')
+	  );  
+	}
+	store.subscribe(ourRender);
+	ourRender();
 
 
 Vídeo aula #138 - Currying
+	• Técnica de programação funcional
+	• Wikipédia:
+		Em ciência da computação, currying é uma técnica de transformação de uma função que recebe múltiplos parâmetros (mais especificamente, uma n-tupla como parâmetro) de forma que ela pode ser chamada como uma cadeia de funções que recebem somente um parâmetro cada. Foi inventada por Moses Schönfinkel e Gottlob Frege, e independentemente por Haskell Curry.
+	
+	ex:
+		function SomaDoisNumeros(a){
+			return function Soma(b){
+				return a+b;
+			}
+		}
+		
+		const SomaCinquenta = SomaDoisNumeros(50);
+		console.log(SomaCinquenta(10)); 		// Retorna 60
+		console.log(SomaCinquenta(05)); 		// Retorna 55
+		console.log(SomaCinquenta(40)); 		// Retorna 90		
+		console.log(SomaDoisNumeros(50)(10));	// Retorna 60
 
 
 Vídeo aula #139 - mapDispatchToProps
+	• A função mapDispatchToProps receberá um dispacth da Store e então selecionaremos quais as propriedades do State que serão injetadas nas propriedades de nosso componente
+	• No exemplo abaixo, estamos injetando a propriedade "value" na props do componente IncrementApp
+	
+	const IncrementApp = ({value, dispatchDecrement, dispatchIncrement }) => {
+	  return (
+		<div>
+		  <button class="btn btn-primary"
+			onClick = {(e) => {
+			  console.log('-');
+			  //store.dispatch(decrement())
+			  dispatchDecrement()
+			}}> - </button>
+		  <span class="alert alert-primary" role="alert">
+			{` ${value} `}
+		  </span>
+		  <button class="btn btn-primary" 
+			onClick = {(e) => {
+			  console.log('+');
+			  //store.dispatch(increment())
+			  dispatchIncrement()
+			}}> + </button>
+		</div>      
+	  )
+	};
+
+	function mapStateToProps(state) {
+	  return {
+		value: state
+	  }
+	}
+	/*
+	Será injetado nas props do componente IncrementApp as funções dispatchIncrement e dispatchDecrement que estão mapeadas para os dispacth increment() e decrement() respectivamente	
+	*/
+	function mapDispatchToProps(dispatch) {
+	  return {
+		dispatchIncrement: () => dispatch(increment()), //anteriormente era "store.dispatch(increment())", mas agora não precisamos acessar a store diretamente
+		dispatchDecrement: () => dispatch(decrement()),
+	  }
+	}
+
+	// Currying
+	const ConnectedIncrementApp = connect(
+	  mapStateToProps,
+	  mapDispatchToProps
+	) (IncrementApp)
+
 
 
 Vídeo aula #140 - Dica sobre o mapDispatchToProps
+	 • A função mapDispatchToProps pode ser criada também como um objeto, como no exemplo abaixo:
+	 • Este método (por objeto) somente é possível quando todos os parâmetros que serão passados para o objeto sejam os mesmos que a actionCreator possui, sem alterações. 
+	const mapDispatchToProps = {
+		dispatchIncrement: increment,
+		dispatchDecrement: decrement
+	}
 
 
 Vídeo aula #141 - Finalizando nosso increment app novamente
+
 
 
 Vídeo aula #142 - Explicando a mágica do Provider com o context
