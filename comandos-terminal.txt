@@ -24,3 +24,6 @@ npm install axios --save (na pasta do projeto)
 
 • Navigation
 yarn add react-navigation 
+
+• Instalar o redux e o react-redux
+yarn add redux react-redux

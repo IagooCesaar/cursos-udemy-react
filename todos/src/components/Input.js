@@ -7,7 +7,7 @@ const Input = ({onChangeText, value}) => {
             style={styles.input}
             onChangeText={onChangeText}
             value={value}
-            underlineColorAndroid="rgb(0, 0, 0)"
+            underlineColorAndroid="rgb(40, 99, 193)"
         />
     )
 }

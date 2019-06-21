@@ -91,6 +91,14 @@ Vídeo aula #011 - Funções:
 	 • Quando uma função sem a palavra "function" utiliza a palavra this (sem escopo próprio), esta estará relacionada ao objeto que a chamou.
 	 
 	 
+	 *** Para fazer uma função JavaScritp retornar um objeto, seu corpo deverá estar envolvido em parênteses. Ex:
+		const addTodo = text => ({
+			type: 123
+		});
+	 
+	 • funcção IF inline:
+	 (condico) ? sentenca_verdadeira : sentenca_falsa;
+	 
 Vídeo aula #012 - Spread operator (...)
 
 	• É utilizado para unir dois ou mais arrays em um novo array
@@ -819,11 +827,30 @@ Vídeo aula #140 - Dica sobre o mapDispatchToProps
 
 
 Vídeo aula #141 - Finalizando nosso increment app novamente
+	• Nota sobre aulas passadas:
+		- Não estamos acessando os elementes getState, dispacth e subscribe da store diretamente
+		- Sempre utilizaremos o Redux
 
 
 
 Vídeo aula #142 - Explicando a mágica do Provider com o context
+	• 
 
 
 
-
+Seção #13
+Vídeo aula #150 - Pensando nos dados (antes de criar app com redux):
+	
+	• Quando iniciamos um projeto com react devemos separar primeiros os componentes, pensando em como a aplicação será criada, para evitar que sejam criadas coisas erradas
+	
+	• Com o Redux, devemos pensar também nos dados da nossa aplicação. Seria como pensar em entidade-relacionamento (DER).	
+		- Exemplo dados da aplicação ToDo:
+		{
+			"todos": {
+			}
+		}
+		
+	
+	
+	
+	

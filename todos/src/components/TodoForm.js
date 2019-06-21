@@ -1,9 +1,11 @@
 import React from 'react';
-import {View, StyleSheet, Button} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 import Input from './Input';
+import { connect } from 'react-redux';
+import {addTodo} from '../actions';
 
-export default class TodoForm extends React.Component {
+class TodoForm extends React.Component {
     constructor (props) {
         super(props);
 
@@ -19,7 +21,9 @@ export default class TodoForm extends React.Component {
     };
 
     onPress() {
-        console.log(thi.state.text);
+        if (this.state.text !== '' )
+            this.props.dispatchAddTodo(this.state.text);
+        this.setState({ text: ''})
     };
 
     render() {
@@ -28,20 +32,33 @@ export default class TodoForm extends React.Component {
             <View style={styles.formContainer}>
                 <View style={styles.inputContaier}>
                     <Input 
-                        onChangeText={this.onChangeText()}
+                        onChangeText={text => this.onChangeText(text)}
                         value={text}
                     />
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Button 
-                        title="ADD" 
-                        onPress={this.onPress()}
-                    />
+                    <TouchableOpacity 
+                        style={styles.buttonAdd}
+                        onPress={() => this.onPress()}
+                    >
+                        <Text style={styles.buttonAddContainer}>ADD</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         )
     }
 }
+
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         dispatchAddTodo: (text) => dispatch(addTodo(text))
+//     }
+// }
+const mapDispatchToProps = {
+    dispatchAddTodo: addTodo,
+}
+
+export default connect(null, mapDispatchToProps)(TodoForm);
 
 const styles = StyleSheet.create ({
     formContainer: {
@@ -52,5 +69,15 @@ const styles = StyleSheet.create ({
     },
     buttonContainer: {
         flex: 1,
+    },
+    buttonAdd: {      
+        backgroundColor: "rgb(40, 99, 193)",
+        alignItems: 'center',
+        paddingTop: 10,
+    },
+    buttonAddContainer: {
+        height: 30, 
+        color: "rgb(255, 255, 255)",
+        fontWeight: 'bold',
     },
 });
