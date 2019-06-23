@@ -20,12 +20,10 @@ const editingTodoReducer = (state = INITIAL_STATE, action) => {
             }
 
         case ADD_TODO:
+        case UPDATE_TODO:
             return INITIAL_STATE;
 
         case SET_EDITING_TODO:
-            return action.todo;
-
-        case UPDATE_TODO:
             return action.todo;
 
         default:

@@ -1,4 +1,8 @@
-import {ADD_TODO, TOGGLE_TODO, UPDATE_TODO} from '../actions'; //index.js já está subtendido
+import {
+    ADD_TODO, 
+    TOGGLE_TODO, 
+    UPDATE_TODO
+} from '../actions'; //index.js já está subtendido
 
 let nextId = 1;
 

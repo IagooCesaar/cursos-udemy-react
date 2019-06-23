@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import todoListItem from './TodoListItem';
+import Vibration from 'Vibration';
 
 import { connect } from 'react-redux';
 import TodoListItem from './TodoListItem';
@@ -15,7 +15,10 @@ const TodoList = ({ todos, dispatchToggleTodo, dispatchSetEditingTodo}) => {
                     todo={todo} 
                     key={todo.id}
                     onPressTodo={() =>  dispatchToggleTodo(todo.id)}
-                    onLongPressTodo={() => dispatchSetEditingTodo(todo)}
+                    onLongPressTodo={() => {
+                        Vibration.vibrate(300)
+                        dispatchSetEditingTodo(todo)
+                    }}
                 />              
             ))}
         </View>
