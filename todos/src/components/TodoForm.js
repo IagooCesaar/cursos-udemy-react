@@ -3,31 +3,25 @@ import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 import Input from './Input';
 import { connect } from 'react-redux';
-import {addTodo} from '../actions';
+import {addTodo, setTodoText} from '../actions';
+
 
 class TodoForm extends React.Component {
-    constructor (props) {
-        super(props);
-
-        this.state = {
-            text: '',
-        }
-    };
-
     onChangeText(text) {
-        this.setState({
-            text
-        })
+        console.log('onChangeText: ',text);
+        this.props.dispatchSetTodoText(text);
     };
 
-    onPress() {
-        if (this.state.text !== '' )
-            this.props.dispatchAddTodo(this.state.text);
-        this.setState({ text: ''})
+    onPress() {        
+        const { text } = this.props.todo;
+        console.log('onPress: ',text);
+        if (text !== '' )
+            this.props.dispatchAddTodo(text);
     };
 
     render() {
-        const { text } = this.state;
+        const { text } = this.props.todo;
+        console.log('render: ',text);
         return (
             <View style={styles.formContainer}>
                 <View style={styles.inputContaier}>
@@ -56,9 +50,17 @@ class TodoForm extends React.Component {
 // }
 const mapDispatchToProps = {
     dispatchAddTodo: addTodo,
+    dispatchSetTodoText: setTodoText
 }
 
-export default connect(null, mapDispatchToProps)(TodoForm);
+const mapStateToProps = (state) => {
+    return {
+        todo: state.editingTodo
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoForm);
 
 const styles = StyleSheet.create ({
     formContainer: {
