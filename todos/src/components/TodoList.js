@@ -7,7 +7,11 @@ import TodoListItem from './TodoListItem';
 
 import { toggleTodo, setEditingTodo } from '../actions';
 
-const TodoList = ({ todos, dispatchToggleTodo, dispatchSetEditingTodo}) => {
+const TodoList = ({ 
+    todos, 
+    dispatchToggleTodo, 
+    dispatchSetEditingTodo
+}) => {
     return (
         <View>
             {todos.map(todo => (
