@@ -3,7 +3,7 @@ import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 import Input from './Input';
 import { connect } from 'react-redux';
-import {addTodo, setTodoText} from '../actions';
+import {addTodo, setTodoText, updateTodo} from '../actions';
 
 
 class TodoForm extends React.Component {
@@ -11,10 +11,15 @@ class TodoForm extends React.Component {
         this.props.dispatchSetTodoText(text);
     };
 
-    onPress() {        
-        const { text } = this.props.todo;
-        if (text !== '' )
-            this.props.dispatchAddTodo(text);
+    onPress() { 
+        const { todo } = this.props;
+        if (todo.text !== '' ) {
+            if (todo.id) { //Se existe id 
+                this.props.dispatchUpdateTodo(todo)
+            } else {
+                this.props.dispatchAddTodo(todo.text);
+            }            
+        }            
     };
 
     render() {
@@ -30,7 +35,7 @@ class TodoForm extends React.Component {
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity 
                         style={styles.buttonAdd}
-                        onPress={() => this.onPress()}
+                        onPress={() => this.onPress()}                        
                     >
                         <Text style={styles.buttonAddContainer}>ADD</Text>
                     </TouchableOpacity>
@@ -47,7 +52,8 @@ class TodoForm extends React.Component {
 // }
 const mapDispatchToProps = {
     dispatchAddTodo: addTodo,
-    dispatchSetTodoText: setTodoText
+    dispatchSetTodoText: setTodoText,
+    dispatchUpdateTodo: updateTodo,
 }
 
 const mapStateToProps = (state) => {

@@ -5,9 +5,9 @@ import todoListItem from './TodoListItem';
 import { connect } from 'react-redux';
 import TodoListItem from './TodoListItem';
 
-import { toggleTodo } from '../actions';
+import { toggleTodo, setEditingTodo } from '../actions';
 
-const TodoList = ({ todos, dispatchToggleTodo}) => {
+const TodoList = ({ todos, dispatchToggleTodo, dispatchSetEditingTodo}) => {
     return (
         <View>
             {todos.map(todo => (
@@ -15,6 +15,7 @@ const TodoList = ({ todos, dispatchToggleTodo}) => {
                     todo={todo} 
                     key={todo.id}
                     onPressTodo={() =>  dispatchToggleTodo(todo.id)}
+                    onLongPressTodo={() => dispatchSetEditingTodo(todo)}
                 />              
             ))}
         </View>
@@ -32,5 +33,8 @@ const mapStateToProps = state => {
 
 export default connect(
     mapStateToProps, 
-    { dispatchToggleTodo: toggleTodo }
+    { 
+        dispatchToggleTodo: toggleTodo ,
+        dispatchSetEditingTodo: setEditingTodo,
+    }
 )(TodoList);
