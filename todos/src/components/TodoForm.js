@@ -8,20 +8,17 @@ import {addTodo, setTodoText} from '../actions';
 
 class TodoForm extends React.Component {
     onChangeText(text) {
-        console.log('onChangeText: ',text);
         this.props.dispatchSetTodoText(text);
     };
 
     onPress() {        
         const { text } = this.props.todo;
-        console.log('onPress: ',text);
         if (text !== '' )
             this.props.dispatchAddTodo(text);
     };
 
     render() {
         const { text } = this.props.todo;
-        console.log('render: ',text);
         return (
             <View style={styles.formContainer}>
                 <View style={styles.inputContaier}>
