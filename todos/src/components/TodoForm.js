@@ -5,7 +5,6 @@ import Input from './Input';
 import { connect } from 'react-redux';
 import {addTodo, setTodoText, updateTodo} from '../actions';
 
-
 class TodoForm extends React.Component {
     onChangeText(text) {
         this.props.dispatchSetTodoText(text);
@@ -23,7 +22,7 @@ class TodoForm extends React.Component {
     };
 
     render() {
-        const { text, id } = this.props.todo;
+        const { text, id } = this.props.todo;        
         return (
             <View style={styles.formContainer}>
                 <View style={styles.inputContaier}>

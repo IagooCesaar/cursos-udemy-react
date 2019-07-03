@@ -130,7 +130,7 @@ export default class LoginPage extends React.Component {
                         value={mail}
                         onChangeText={value => this.onChangeHandler('mail',value)}
                     />   
-                </FormRow>
+                </FormRow>                
                 <FormRow last> 
                     <TextInput 
                         style={styles.input}
