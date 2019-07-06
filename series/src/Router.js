@@ -3,6 +3,8 @@ import { createAppContainer, createStackNavigator } from 'react-navigation';
 import LoginPage from './pages/LoginPage';
 import SeiresPage from './pages/SeriesPage';
 
+import CoresSicoob from './util/CoresSicoob.json';
+
 const AppNavigator = createStackNavigator({
   'Login':{
     screen: LoginPage,
@@ -20,9 +22,9 @@ const AppNavigator = createStackNavigator({
     headerTintColor: 'rgb(255, 255, 255)',
     headerStyle:{
       headerTintColor: 'rgb(255, 255, 255)',
-      backgroundColor: 'rgb(000, 073, 080)',
+      backgroundColor: CoresSicoob.primarias.cor4,
       borderBottomWidth: 1,
-      borderBottomColor: 'rgb(189, 190, 192)',
+      borderBottomColor: CoresSicoob.cinzas.cor1,
     },
     headerTitleStyle:{
       color: 'rgb(255, 255, 255)',

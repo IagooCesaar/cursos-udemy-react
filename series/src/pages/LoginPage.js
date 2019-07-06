@@ -1,10 +1,19 @@
 import React from 'react';
-import { View, StyleSheet, TextInput, Button, ActivityIndicator, Text, Alert } from 'react-native';
+import {
+    View, StyleSheet, TextInput, Button, 
+    ActivityIndicator, Text, TouchableOpacity ,
+    Image
+} from 'react-native';
 import firebase from 'firebase';
+
+import CoresSicoob from '../util/CoresSicoob.json';
+
+import { tryLogin } from '../actions';
+import { connect } from 'react-redux';
 
 import FormRow from '../components/FormRow';
 
-export default class LoginPage extends React.Component {
+class LoginPage extends React.Component {
     constructor(props){
         super(props)
         this.state = {
@@ -22,55 +31,6 @@ export default class LoginPage extends React.Component {
             [field]: value
         });
     }
-    tryLogin(){
-        const { mail, password} = this.state;
-        this.setState({isLoading:true});
-
-        const loginUserSuccess = user => {
-            console.log('Sucesso!');
-            this.setState({message: "Sucesso!"})
-            this.props.navigation.navigate('Main');
-        }        
-        const loginUserFailed = error => {
-            this.setState({
-                message: this.getMessageByErrorCode(error.code)         
-            })
-        }
-
-        firebase
-            .auth()
-            .signInWithEmailAndPassword(mail,password)
-            .then(loginUserSuccess)
-            .catch(error => {
-                this.setState({message: this.getMessageByErrorCode(error.code)});     
-                if (error.code === 'auth/user-not-found') {
-                    Alert.alert(
-                        'Usuário não encontrado',
-                        'Não foi possível encontrar um usuário válido com as credenciais fornecidas. Deseja se cadastrar?',
-                        [{
-                            text: 'Não',
-                            onPress: () => {console.log('Usuário não quer criar conta')},
-                            style: 'cancel' /* apenas no iOS */
-                        },{
-                            text: 'Sim',
-                            onPress: () => {
-                                firebase
-                                    .auth()
-                                    .createUserWithEmailAndPassword(mail, password)
-                                    .then(loginUserSuccess)
-                                    .catch(loginUserFailed)
-                            }
-                        }],
-                        { cancelable: false}
-                    )
-                } else {
-                    loginUserFailed
-                }
-                console.log('Usuário não encontrado!', error)
-            })
-            .then(() => this.setState({isLoading:false})) 
-            /* similar a  try { } catch(e) { } finally { } */
-    }
     getMessageByErrorCode(ErrorCode){
         switch(ErrorCode){
             case 'auth/invalid-email':  
@@ -85,6 +45,29 @@ export default class LoginPage extends React.Component {
                 return 'Erro desconhecido: ' + ErrorCode;
         }
     }
+    tryLogin() {
+        this.setState ({isLoading: true, message: ''});
+        const { mail: email, password } = this.state;
+
+        this.props.tryLogin({
+            email, password
+        })
+        .then((user) => {
+            //Sucesso!, este then será executado após retorno da promisse do firebase
+            if (user) 
+                return this.props.navigation.replace('Main');//Apaga o histórico de navegação, removendo a setinha para voltar
+            //este return é necessário pois tentará fazer setState em página não visível mais
+            // se não tiver usuário apenas limpa a tela
+            this.setState({isLoading: false, message: ''});            
+        })
+        .catch(error => {
+            this.setState ({
+                isLoading: false, 
+                message: this.getMessageByErrorCode(error.code)
+            });
+        })
+
+    }    
     renderMessage() {
         const { message } = this.state;
         if (!message)
@@ -113,10 +96,20 @@ export default class LoginPage extends React.Component {
         if (this.state.isLoading)
             return <ActivityIndicator />
         return(
-            <Button 
-                title="Entrar"
-                onPress={() => this.tryLogin()}
-                />
+            <View syle={styles.buttonLoginContainer}> 
+                    <TouchableOpacity 
+                    onPress={() => this.tryLogin()}
+                    style={styles.buttonLogin}    
+                >         
+                    {/* <Image 
+                        source={require('../images/png/24/sign-right.png')} 
+                        style={styles.buttonLoginItens}
+                    /> */}
+                    <Text style={styles.buttonLoginItens} >
+                        Entrar
+                    </Text>
+                </TouchableOpacity>
+            </View>            
         )
     }
     render(){
@@ -129,6 +122,8 @@ export default class LoginPage extends React.Component {
                         placeholder="usuario@dominio.com" 
                         value={mail}
                         onChangeText={value => this.onChangeHandler('mail',value)}
+                        keyboardType='email-address'
+                        autoCapitalize='none'
                     />   
                 </FormRow>                
                 <FormRow last> 
@@ -157,5 +152,33 @@ const styles = StyleSheet.create({
         paddingLeft: 5,
         paddingRight: 5,
         paddingBottom: 5
+    },
+    buttonLoginContainer: {  
+        display: 'flex',        
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',        
+    },
+    buttonLogin: {        
+        width: '100%',
+        backgroundColor: CoresSicoob.terciarias.cor4,
+        alignSelf: 'center',
+        borderRadius: 5,     
+        lineHeight: 40,
+        height: 40,
+    },
+    buttonLoginImage:{
+        flex: 2,
+    },
+    buttonLoginItens:{
+        flex: 6,
+        height: 35, 
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: "rgb(255,255,255)",
     }
 })
+
+export default connect(null, {
+    tryLogin
+})(LoginPage);
