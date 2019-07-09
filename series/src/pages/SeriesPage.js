@@ -1,15 +1,23 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, FlatList } from 'react-native';
+import SerieCard from '../components/SerieCard';
 
-export default class SeiresPage extends React.Component {
-    constructor(props){
-        super(props);
-    }
-    render () {
-        return (
+import series from '../../series.json';
+
+export default class SeriesPage extends React.Component {
+    render(){
+        return(
             <View>
-                <Text>Página principal</Text>
+                <FlatList 
+                    data={series}
+                    renderItem={({item}) => (
+                        <SerieCard serie={item}></SerieCard>
+                    )}
+                    keyExtractor={item => item.id}
+                    numColumns={2}
+                >                
+                </FlatList>
             </View>
         )
     }
-}
+};

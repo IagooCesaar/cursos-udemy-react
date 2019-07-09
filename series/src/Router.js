@@ -6,15 +6,15 @@ import SeiresPage from './pages/SeriesPage';
 import CoresSicoob from './util/CoresSicoob.json';
 
 const AppNavigator = createStackNavigator({
+  'Main': {
+    screen: SeiresPage,
+  }  ,
   'Login':{
     screen: LoginPage,
     navigationOptions: {
       title: 'Bem vindo!'
     }
   },
-  'Main': {
-    screen: SeiresPage,
-  }  
 },
 {
   defaultNavigationOptions: {
