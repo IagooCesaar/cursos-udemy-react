@@ -1,14 +1,20 @@
 import React from 'react';
 import { 
     View, Text, StyleSheet,
-    Dimensions, Image
+    Dimensions, Image, TouchableOpacity
 } from 'react-native';
 
 import CoresSicoob from '../util/CoresSicoob.json';
 
-const SerieCard = ({ serie }) => (
-    <View style={styles.container}>
-        <View style={styles.card}>
+const SerieCard = ({ serie, isFirstColumn, onNavigate }) => (
+    <TouchableOpacity 
+        style={styles.container}
+        onPress={onNavigate}//() => onNavigate(serie)
+    >
+        <View style={[
+                styles.card,
+                isFirstColumn ? styles.firstColumn : styles.lastColumn
+            ]}>
             <Image 
                 source={{
                     uri: serie.img
@@ -20,19 +26,20 @@ const SerieCard = ({ serie }) => (
                 <Text syle={styles.cardTitle}>{serie.title}</Text> 
             </View>
         </View>
-    </View>
+    </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        padding: 5,
+        //flex: 1,
+        padding: 4,
+        width: '50%',
         height: Dimensions.get('window').width/2,
     },
     card: {
         flex: 1,
-        borderWidth: 1,
-        borderColor: CoresSicoob.cinzas.cor3,
+        //borderWidth: 1,
+        //borderColor: CoresSicoob.cinzas.cor3,
     },
     cardTitleWrapper: {
         backgroundColor: CoresSicoob.cinzas.cor4,
@@ -54,6 +61,14 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 15,
         fontWeight: 'bold',        
+    },
+    firstColumn: {
+        paddingLeft: 4,
+        paddingRight: 2,
+    },
+    lastColumn: {
+        paddingLeft: 2,
+        paddingRight: 4,
     },
 });
 

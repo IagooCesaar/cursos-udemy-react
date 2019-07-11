@@ -4,20 +4,35 @@ import SerieCard from '../components/SerieCard';
 
 import series from '../../series.json';
 
-export default class SeriesPage extends React.Component {
-    render(){
-        return(
-            <View>
-                <FlatList 
-                    data={series}
-                    renderItem={({item}) => (
-                        <SerieCard serie={item}></SerieCard>
-                    )}
-                    keyExtractor={item => item.id}
-                    numColumns={2}
-                >                
-                </FlatList>
-            </View>
-        )
-    }
+const SeriesPage = (props) => {    
+    return(
+        <View>
+            <FlatList 
+                data={series}
+                renderItem={({item, index}) => (
+                    <SerieCard 
+                        serie={item} 
+                        isFirstColumn={index % 2 === 0} 
+                        onNavigate={seires => props.navigation.navigate('SerieDetail',{ serie: item })}
+                    />
+                )}
+                keyExtractor={item => item.id}
+                numColumns={2}
+                ListHeaderComponent={props => (<View style={styles.marginTop} />)}
+                ListFooterComponent={props => (<View style={styles.marginBottom} />)}
+            >                
+            </FlatList>
+        </View>
+    )
 };
+
+export default SeriesPage;
+
+const styles = StyleSheet.create({
+    marginTop: {
+        marginTop: 2,
+    },
+    marginBottom: {
+        marginBottom: 2
+    },
+})

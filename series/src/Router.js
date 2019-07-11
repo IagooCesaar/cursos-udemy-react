@@ -1,20 +1,30 @@
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 
 import LoginPage from './pages/LoginPage';
-import SeiresPage from './pages/SeriesPage';
+import SeriesPage from './pages/SeriesPage';
+import SerieDetailPage  from './pages/SerieDetailPage';
 
 import CoresSicoob from './util/CoresSicoob.json';
 
 const AppNavigator = createStackNavigator({
   'Main': {
-    screen: SeiresPage,
-  }  ,
+    screen: SeriesPage,
+  },
   'Login':{
     screen: LoginPage,
     navigationOptions: {
       title: 'Bem vindo!'
     }
   },
+  'SerieDetail': {
+    screen: SerieDetailPage,
+    navigationOptions:({navigation}) => {
+      const {serie} = navigation.state.params;
+      return {
+          title: serie.title
+      }
+    }
+  }
 },
 {
   defaultNavigationOptions: {
